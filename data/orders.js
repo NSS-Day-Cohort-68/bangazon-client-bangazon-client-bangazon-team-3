@@ -1,11 +1,7 @@
 import { fetchWithResponse } from "./fetcher"
 
 export function getCart() {
-<<<<<<< HEAD
-  return fetchWithResponse('cart', {
-=======
   return fetchWithResponse("cart", {
->>>>>>> develop
     headers: {
       Authorization: `Token ${localStorage.getItem("token")}`,
     },

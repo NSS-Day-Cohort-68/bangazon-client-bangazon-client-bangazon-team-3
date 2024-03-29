@@ -31,11 +31,16 @@ export function getProductById(id) {
 }
 
 export function addProductToOrder(id) {
-  return fetchWithResponse(`/cart/${id}/add_to_cart/`, {
+  return fetchWithResponse(`/cart/add_to_cart/`, {
     method: 'POST',
     headers: {
+      "Content-Type": 'application/json',
       Authorization: `Token ${localStorage.getItem('token')}`
-    }
+    },
+    body: JSON.stringify({
+      product_id: id
+
+    })
   })
 }
 

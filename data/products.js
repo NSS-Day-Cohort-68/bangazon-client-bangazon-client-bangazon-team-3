@@ -31,7 +31,7 @@ export function getProductById(id) {
 }
 
 export function addProductToOrder(id) {
-  return fetchWithResponse(`products/${id}/add_to_order`, {
+  return fetchWithResponse(`/cart/${id}/add_to_cart/`, {
     method: 'POST',
     headers: {
       Authorization: `Token ${localStorage.getItem('token')}`
@@ -40,7 +40,7 @@ export function addProductToOrder(id) {
 }
 
 export function removeProductFromOrder(id) {
-  return fetchWithoutResponse(`products/${id}/remove-from-order`, {
+  return fetchWithoutResponse(`/cart/${id}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Token ${localStorage.getItem('token')}`

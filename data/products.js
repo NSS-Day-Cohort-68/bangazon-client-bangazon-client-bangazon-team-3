@@ -34,14 +34,17 @@ export function addProductToOrder(id) {
   return fetchWithResponse(`profile/cart`, {
     method: 'POST',
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`,
-      "Content-Type": "application/json",
-    }, body: JSON.stringify({ product_id: id })
+      "Content-Type": 'application/json',
+      Authorization: `Token ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify({
+      product_id: id
+    })
   })
 }
 
 export function removeProductFromOrder(id) {
-  return fetchWithoutResponse(`products/${id}/remove-from-order`, {
+  return fetchWithoutResponse(`/cart/${id}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Token ${localStorage.getItem('token')}`

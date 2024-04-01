@@ -21,7 +21,7 @@ export function register(user) {
 }
 
 export function getUserProfile() {
-  return fetchWithResponse("profile", {
+  return fetchWithResponse('profile', {
     headers: {
       Authorization: `Token ${localStorage.getItem("token")}`,
     },

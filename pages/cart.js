@@ -32,8 +32,8 @@ export default function Cart() {
     })
   }, [])
 
-  const completeOrder = (paymentTypeId) => {
-    completeCurrentOrder(cart.id, paymentTypeId).then(() => router.push('/my-orders'))
+  const completeOrder = (cart, paymentTypeId) => {
+    completeCurrentOrder(cart, paymentTypeId).then(() => router.push('/my-orders'))
   }
 
   const removeProduct = (productId) => {
@@ -47,6 +47,7 @@ export default function Cart() {
         setShowModal={setShowCompleteForm}
         paymentTypes={paymentTypes}
         completeOrder={completeOrder}
+        cart={cart}
       />
       <CardLayout title="Your Current Order">
         <CartDetail cart={cart} removeProduct={removeProduct} />

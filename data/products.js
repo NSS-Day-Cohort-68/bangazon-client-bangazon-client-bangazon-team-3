@@ -39,7 +39,6 @@ export function addProductToOrder(id) {
     },
     body: JSON.stringify({
       product_id: id
-
     })
   })
 }

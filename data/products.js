@@ -31,16 +31,21 @@ export function getProductById(id) {
 }
 
 export function addProductToOrder(id) {
-  return fetchWithResponse(`products/${id}/add_to_order`, {
+  return fetchWithResponse(`profile/cart`, {
     method: 'POST',
     headers: {
+      "Content-Type": 'application/json',
       Authorization: `Token ${localStorage.getItem('token')}`
-    }
+    },
+    body: JSON.stringify({
+      product_id: id
+
+    })
   })
 }
 
 export function removeProductFromOrder(id) {
-  return fetchWithoutResponse(`products/${id}/remove-from-order`, {
+  return fetchWithoutResponse(`/cart/${id}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Token ${localStorage.getItem('token')}`

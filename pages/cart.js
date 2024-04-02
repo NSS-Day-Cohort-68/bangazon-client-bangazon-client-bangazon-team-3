@@ -1,13 +1,13 @@
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import CardLayout from '../components/card-layout'
-import Layout from '../components/layout'
-import Navbar from '../components/navbar'
-import CartDetail from '../components/order/detail'
-import CompleteFormModal from '../components/order/form-modal'
-import { completeCurrentOrder, getCart } from '../data/orders'
-import { getPaymentTypes } from '../data/payment-types'
-import { removeProductFromOrder } from '../data/products'
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import CardLayout from "../components/card-layout"
+import Layout from "../components/layout"
+import Navbar from "../components/navbar"
+import CartDetail from "../components/order/detail"
+import CompleteFormModal from "../components/order/form-modal"
+import { completeCurrentOrder, getCart, removeOrder } from "../data/orders"
+import { getPaymentTypes } from "../data/payment-types"
+import { addProductToOrder, removeProductFromOrder } from "../data/products"
 
 export default function Cart() {
   const [cart, setCart] = useState({})
@@ -16,7 +16,7 @@ export default function Cart() {
   const router = useRouter()
 
   const refresh = () => {
-    getCart().then(cartData => {
+    getCart().then((cartData) => {
       if (cartData) {
         setCart(cartData)
       }
@@ -25,7 +25,7 @@ export default function Cart() {
 
   useEffect(() => {
     refresh()
-    getPaymentTypes().then(paymentData => {
+    getPaymentTypes().then((paymentData) => {
       if (paymentData) {
         setPaymentTypes(paymentData)
       }
@@ -33,11 +33,19 @@ export default function Cart() {
   }, [])
 
   const completeOrder = (cart, paymentTypeId) => {
-    completeCurrentOrder(cart, paymentTypeId).then(() => router.push('/my-orders'))
+    completeCurrentOrder(cart, paymentTypeId).then(() =>
+      router.push("/my-orders")
+    )
   }
 
   const removeProduct = (productId) => {
     removeProductFromOrder(productId).then(refresh)
+  }
+
+  const handleRemoveOrder = () => {
+    cart.lineitems.map((item) => {
+      removeProductFromOrder(item.product.id).then(refresh)
+    })
   }
 
   return (
@@ -52,8 +60,15 @@ export default function Cart() {
       <CardLayout title="Your Current Order">
         <CartDetail cart={cart} removeProduct={removeProduct} />
         <>
-          <a className="card-footer-item" onClick={() => setShowCompleteForm(true)}>Complete Order</a>
-          <a className="card-footer-item">Delete Order</a>
+          <a
+            className="card-footer-item"
+            onClick={() => setShowCompleteForm(true)}
+          >
+            Complete Order
+          </a>
+          <a className="card-footer-item" onClick={handleRemoveOrder}>
+            Delete Order
+          </a>
         </>
       </CardLayout>
     </>

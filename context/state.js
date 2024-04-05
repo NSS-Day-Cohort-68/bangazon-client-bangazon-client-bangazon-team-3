@@ -56,7 +56,10 @@ export function AppWrapper({ children }) {
           })
           // if user has a store, store data returns as response
           .then((storeData) => {
-            // set profile with prevProfile expanded to add store value to profile object
+            // this setter function has a function passed into it
+            // "prevProfile" is the previous state ("profile")
+            // the function alters the previous state itself
+            // in this case, it adds the key of "store" with the value "storeData" onto the "profile" state object
             setProfile((prevProfile) => ({ ...prevProfile, store: storeData }))
           })
       }

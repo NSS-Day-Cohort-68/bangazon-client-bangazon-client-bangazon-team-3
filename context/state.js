@@ -1,8 +1,9 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { getUserProfile } from '../data/auth';
+import { createContext, useContext, useEffect, useState } from "react"
+import { getUserProfile } from "../data/auth"
 import { useRouter } from "next/router"
+import { getUserStore } from "../data/stores.js"
 
-const AppContext = createContext();
+const AppContext = createContext()
 
 export function AppWrapper({ children }) {
   const [profile, setProfile] = useState({})
@@ -10,19 +11,54 @@ export function AppWrapper({ children }) {
   const router = useRouter()
 
   useEffect(() => {
-    setToken(localStorage.getItem('token'))
+    setToken(localStorage.getItem("token"))
   }, [])
 
+  // useEffect(() => {
+  //   getUserStore().then((res) => {
+  //     setProfile({
+  //       ...profile,
+  //       store: res,
+  //     })
+  //   })
+  // }, [])
+
+  // useEffect(() => {
+  //   const authRoutes = ["/login", "/register"]
+  //   if (token) {
+  //     localStorage.setItem("token", token)
+  //     if (!authRoutes.includes(router.pathname)) {
+  //       getUserProfile().then((profileData) => {
+  //         if (profileData) {
+  //           setProfile(profileData)
+  //         }
+  //       })
+  //     }
+  //   }
+  // }, [token])
+
   useEffect(() => {
-    const authRoutes = ['/login', '/register']
+    const authRoutes = ["/login", "/register"]
     if (token) {
-      localStorage.setItem('token', token)
+      localStorage.setItem("token", token)
       if (!authRoutes.includes(router.pathname)) {
-        getUserProfile().then((profileData) => {
-          if (profileData) {
-            setProfile(profileData)
-          }
-        })
+        // get user profile
+        getUserProfile()
+          // returns profile data as response
+          .then((profileData) => {
+            // if profile data exists
+            if (profileData) {
+              // use that data to set profile
+              setProfile(profileData)
+              // invoke our getUserStore (if user has a store)
+              return getUserStore() // Fetch user store after setting profile
+            }
+          })
+          // if user has a store, store data returns as response
+          .then((storeData) => {
+            // set profile with prevProfile expanded to add store value to profile object
+            setProfile((prevProfile) => ({ ...prevProfile, store: storeData }))
+          })
       }
     }
   }, [token])
@@ -31,9 +67,9 @@ export function AppWrapper({ children }) {
     <AppContext.Provider value={{ profile, token, setToken, setProfile }}>
       {children}
     </AppContext.Provider>
-  );
+  )
 }
 
 export function useAppContext() {
-  return useContext(AppContext);
+  return useContext(AppContext)
 }

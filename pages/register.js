@@ -13,9 +13,11 @@ export default function Register() {
   const firstName = useRef('')
   const lastName = useRef('')
   const username = useRef('')
+  const email = useRef('')
   const password = useRef('')
+  const phone_number = useRef('')
+  const address = useRef('')
   const router = useRouter()
-
   const submit = (e) => {
     e.preventDefault()
 
@@ -23,7 +25,10 @@ export default function Register() {
       username: username.current.value,
       password: password.current.value,
       first_name: firstName.current.value,
-      last_name: lastName.current.value
+      last_name: lastName.current.value,
+      email: email.current.value,
+      phone_number: phone_number.current.value,
+      address: address.current.value
     }
 
     register(user).then((res) => {
@@ -57,6 +62,24 @@ export default function Register() {
             refEl={username}
             type="text"
             label="Username"
+          />
+          <Input
+            id="email"
+            refEl={email}
+            type="text"
+            label="email"
+          />
+          <Input
+            id="phoneNumber"
+            refEl={phone_number}
+            type="text"
+            label="phone_number"
+          />
+          <Input
+            id="address"
+            refEl={address}
+            type="text"
+            label="address"
           />
           <Input
             id="password"

@@ -1,23 +1,26 @@
-import Link from 'next/link'
+import Link from "next/link"
+import { ProductCard } from "../product/card.js"
 
-export function StoreCard({ store, width= "is-half" }) {
+export function StoreCard({ store, width = "is-half" }) {
   return (
     <div className={`column ${width}`}>
       <div className="card">
         <header className="card-header">
-          <p className="card-header-title">
-            {store.name}
-          </p>
+          <p className="card-header-title">{store.name}</p>
         </header>
         <div className="card-content">
           <p className="content">
             Owner: {store.seller.first_name} {store.seller.last_name}
           </p>
-          <div className="content">
-            {store.description}
-          </div>
+          <div className="content">{store.description}</div>
+          <div className="content">Products: {store.products.length}</div>
         </div>
         <footer className="card-footer">
+          <div className="">
+            {store.products.map((product) => {
+              return <ProductCard key={product.id} product={product} />
+            })}
+          </div>
           <Link href={`stores/${store.id}`}>
             <a className="card-footer-item">View Store</a>
           </Link>

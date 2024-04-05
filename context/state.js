@@ -14,29 +14,6 @@ export function AppWrapper({ children }) {
     setToken(localStorage.getItem("token"))
   }, [])
 
-  // useEffect(() => {
-  //   getUserStore().then((res) => {
-  //     setProfile({
-  //       ...profile,
-  //       store: res,
-  //     })
-  //   })
-  // }, [])
-
-  // useEffect(() => {
-  //   const authRoutes = ["/login", "/register"]
-  //   if (token) {
-  //     localStorage.setItem("token", token)
-  //     if (!authRoutes.includes(router.pathname)) {
-  //       getUserProfile().then((profileData) => {
-  //         if (profileData) {
-  //           setProfile(profileData)
-  //         }
-  //       })
-  //     }
-  //   }
-  // }, [token])
-
   useEffect(() => {
     const authRoutes = ["/login", "/register"]
     if (token) {
@@ -61,7 +38,7 @@ export function AppWrapper({ children }) {
           })
       }
     }
-  }, [token])
+  }, [token, router.pathname])
 
   return (
     <AppContext.Provider value={{ profile, token, setToken, setProfile }}>

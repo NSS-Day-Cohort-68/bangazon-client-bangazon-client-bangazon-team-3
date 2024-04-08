@@ -9,7 +9,6 @@ export default function NewProduct() {
   const router = useRouter()
 
   const saveProduct = () => {
-    debugger
     const { name, description, price, category, location, quantity, image } =
       formEl.current
     const product = {

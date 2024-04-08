@@ -24,7 +24,7 @@ const catchError = (err) => {
 }
 
 export const fetchWithResponse = (resource, options) =>
-fetch(`${API_URL}/${resource}`, options)
+  fetch(`${API_URL}/${resource}`, options)
     .then(checkErrorJson)
     .catch(catchError)
 

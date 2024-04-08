@@ -20,12 +20,13 @@ export function Ratings({
   //   if (ratings.length) {
   //     setProductId(ratings[0].product)
   //   }
-  //   console.log(productId)
   // }, [ratings])
 
   useEffect(() => {
-    setProductId(product.id)
-  }, [])
+    if (product) {
+      setProductId(product.id)
+    }
+  }, [product])
 
   return (
     <div className="tile is-ancestor is-flex-wrap-wrap">

@@ -62,7 +62,7 @@ export function deleteProduct(id) {
 }
 
 export function rateProduct(productId, rating) {
-  return fetchWithResponse(`products/${productId}/rate-product`, {
+  return fetchWithResponse(`products/${productId}/rate_product`, {
     method: "POST",
     headers: {
       Authorization: `Token ${localStorage.getItem("token")}`,

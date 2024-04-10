@@ -9,6 +9,7 @@ export default function Products() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState({})
+  const [filtering, setFiltering] = useState(false)
   const [isLoading, setIsLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("Loading products...");
   const [locations, setLocations] = useState([]);
@@ -53,44 +54,61 @@ export default function Products() {
       })
   }, []);
 
-  const searchProducts = (event) => {
-    getProducts(event).then((productsData) => {
-      if (productsData) {
-        setProducts(productsData);
+  const searchProducts = (e) => {
+    getProducts(e).then((products) => {
+      if (e !== '') {
+        setFiltering(true)
+      } else {
+        setFiltering(false)
       }
-    });
-  };
+      setProducts(products)
+    })
+  }
 
   if (isLoading) return <p>{loadingMessage}</p>;
 
-  
   return (
     <>
       <Filter
         productCount={products.length}
         onSearch={searchProducts}
         locations={locations}
-        />
-      <div className="columns is-multiline">
-        {filteredProducts ? categories.map((category) => (
-          <div key={category.name} className="column">
-            <h2>{category.name}</h2>
+      />
+      {filtering ? (
+        <div className="columns is-multiline">
+          <div className="column">
+            <h2>Products matching filters</h2>
             <div className="columns is-multiline">
-              {filteredProducts[category.name]
-                ?.map((product) => (
-                  <div key={product.id} className="column is-one-quarter">
-                    <ProductCard product={product} /> 
-                  </div>
-                ))}
+              {products.map((product) => (
+                <div key={product.id} className="column is-one-quarter">
+                  <ProductCard product={product} />
+                </div>
+              ))}
             </div>
           </div>
-        )):
-        <p>No products available in this category</p>
-        }
-      </div>
+        </div>
+      ) : (
+        <div className="columns is-multiline">
+          {filteredProducts
+            ? categories.map((category) => (
+                <div key={category.name} className="column">
+                  <h2>{category.name}</h2>
+                  <div className="columns is-multiline">
+                    {filteredProducts[category.name]?.map((product) => (
+                      <div key={product.id} className="column is-one-quarter">
+                        <ProductCard product={product} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            : <p>No products available in this category</p>}
+        </div>
+      )}
     </>
   );
 }
+
 
 Products.getLayout = function getLayout(page) {
   return (

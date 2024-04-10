@@ -7,28 +7,28 @@ import { getCategories, getProducts } from "../../data/products";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("Loading products...");
   const [locations, setLocations] = useState([]);
 
   useEffect(() => {
     getCategories()
-    .then((data) => {
-      console.log("Categories data:", data)
-      if (data) {
-        setCategories(data)
-      }
-    })
-    .catch((err) => {
-      console.log("Error fetching categories:", err)
-    })
-  },[])
+      .then((data) => {
+        console.log("Categories data:", data);
+        if (data) {
+          setCategories(data);
+        }
+      })
+      .catch((err) => {
+        console.log("Error fetching categories:", err);
+      });
+  }, []);
 
   useEffect(() => {
     getProducts()
       .then((data) => {
-        console.log("Products data:", data)
+        console.log("Products data:", data);
         if (data) {
           const locationData = [
             ...new Set(data.map((product) => product.location)),
@@ -84,16 +84,17 @@ export default function Products() {
         onSearch={searchProducts}
         locations={locations}
       />
-
       <div className="columns is-multiline">
         {categories.map((category) => (
           <div key={category.name} className="column">
             <h2>{category.name}</h2>
-            <div className="columns is multiline">
+            <div className="columns is-multiline">
               {products
                 .filter((product) => product.category === category.name)
                 .map((product) => (
-                  <ProductCard product={product} key={product.id} />
+                  <div key={product.id} className="column is-one-quarter">
+                    <ProductCard product={product} />
+                  </div>
                 ))}
             </div>
           </div>
@@ -111,3 +112,28 @@ Products.getLayout = function getLayout(page) {
     </Layout>
   );
 };
+//   return (
+//     <>
+//       <Filter
+//         productCount={products.length}
+//         onSearch={searchProducts}
+//         locations={locations}
+//       />
+
+//       <div className="columns is-multiline">
+//         {categories.map((category) => (
+//           <div key={category.name} className="column">
+//             <h2>{category.name}</h2>
+//             <div className="columns is multiline">
+//               {products
+//                 .filter((product) => product.category === category.name)
+//                 .map((product) => (
+//                   <ProductCard product={product} key={product.id} />
+//                 ))}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </>
+//   );
+// }

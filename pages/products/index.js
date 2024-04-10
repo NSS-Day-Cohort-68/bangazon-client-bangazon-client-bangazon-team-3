@@ -3,11 +3,12 @@ import Filter from "../../components/filter";
 import Layout from "../../components/layout";
 import Navbar from "../../components/navbar";
 import { ProductCard } from "../../components/product/card";
-import { getCategories, getProducts } from "../../data/products";
+import { getCategories, getCategoriesFiltered, getProducts } from "../../data/products";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState({})
   const [isLoading, setIsLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("Loading products...");
   const [locations, setLocations] = useState([]);
@@ -15,20 +16,18 @@ export default function Products() {
   useEffect(() => {
     getCategories()
       .then((data) => {
-        console.log("Categories data:", data);
         if (data) {
           setCategories(data);
+          fetchProducts()
         }
       })
       .catch((err) => {
-        console.log("Error fetching categories:", err);
       });
   }, []);
 
   useEffect(() => {
     getProducts()
       .then((data) => {
-        console.log("Products data:", data);
         if (data) {
           const locationData = [
             ...new Set(data.map((product) => product.location)),
@@ -48,6 +47,10 @@ export default function Products() {
           `Unable to retrieve products. Status code ${err.message} on response.`
         );
       });
+      getCategoriesFiltered()
+      .then((data) => {
+        setFilteredProducts(data)
+      })
   }, []);
 
   const searchProducts = (event) => {
@@ -60,45 +63,30 @@ export default function Products() {
 
   if (isLoading) return <p>{loadingMessage}</p>;
 
-  //   return (
-  //     <>
-  //       <Filter
-  //         productCount={products.length}
-  //         onSearch={searchProducts}
-  //         locations={locations}
-  //       />
-
-  //       <div className="columns is-multiline">
-  //         {products.map((product) => (
-  //           <ProductCard product={product} key={product.id} />
-  //         ))}
-  //       </div>
-  //     </>
-  //   );
-  // }
-
+  
   return (
     <>
       <Filter
         productCount={products.length}
         onSearch={searchProducts}
         locations={locations}
-      />
+        />
       <div className="columns is-multiline">
-        {categories.map((category) => (
+        {filteredProducts ? categories.map((category) => (
           <div key={category.name} className="column">
             <h2>{category.name}</h2>
             <div className="columns is-multiline">
-              {products
-                .filter((product) => product.category === category.name)
-                .map((product) => (
+              {filteredProducts[category.name]
+                ?.map((product) => (
                   <div key={product.id} className="column is-one-quarter">
-                    <ProductCard product={product} />
+                    <ProductCard product={product} /> 
                   </div>
                 ))}
             </div>
           </div>
-        ))}
+        )):
+        <p>No products available in this category</p>
+        }
       </div>
     </>
   );
@@ -112,28 +100,3 @@ Products.getLayout = function getLayout(page) {
     </Layout>
   );
 };
-//   return (
-//     <>
-//       <Filter
-//         productCount={products.length}
-//         onSearch={searchProducts}
-//         locations={locations}
-//       />
-
-//       <div className="columns is-multiline">
-//         {categories.map((category) => (
-//           <div key={category.name} className="column">
-//             <h2>{category.name}</h2>
-//             <div className="columns is multiline">
-//               {products
-//                 .filter((product) => product.category === category.name)
-//                 .map((product) => (
-//                   <ProductCard product={product} key={product.id} />
-//                 ))}
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//     </>
-//   );
-// }

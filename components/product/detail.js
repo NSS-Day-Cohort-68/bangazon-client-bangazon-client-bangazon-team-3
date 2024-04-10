@@ -3,12 +3,14 @@ import { useState, useRef } from "react"
 import { addProductToOrder, recommendProduct } from "../../data/products"
 import Modal from "../modal"
 import { Input } from "../form-elements"
+import { useAppContext } from "../../context/state"
 
 export function Detail({ product, like, unlike }) {
   const router = useRouter()
   const usernameEl = useRef()
   const [showModal, setShowModal] = useState(false)
   const [showError, setShowError] = useState(false)
+  const { profile } = useAppContext();
 
 
   const addToCart = () => {
@@ -70,7 +72,7 @@ export function Detail({ product, like, unlike }) {
               </p>
               <p className="control">
                 {
-                  product.is_liked ?
+                  (product.likes?.some(like => like.customer === profile.id)) ?
                     <button className="button is-link is-outlined" onClick={unlike}>
                       <span className="icon is-small">
                         <i className="fas fa-heart-broken"></i>

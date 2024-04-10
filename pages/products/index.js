@@ -15,6 +15,7 @@ export default function Products() {
   useEffect(() => {
     getCategories()
     .then((data) => {
+      console.log("Categories data:", data)
       if (data) {
         setCategories(data)
       }
@@ -27,6 +28,7 @@ export default function Products() {
   useEffect(() => {
     getProducts()
       .then((data) => {
+        console.log("Products data:", data)
         if (data) {
           const locationData = [
             ...new Set(data.map((product) => product.location)),

@@ -67,41 +67,55 @@ export default function Products() {
 
   if (isLoading) return <p>{loadingMessage}</p>;
 
-return (
-  <>
-    <Filter productCount={products.length} onSearch={searchProducts} locations={locations} />
-    {filtering && (
-      <div className="columns is-multiline">
-        <div className="column is-12">
-          <h2 className="is-size-4 mb-4">Products matching filters</h2>
-          <div className="columns is-multiline is-mobile">
-            {products.map((product) => (
-              <div key={product.id} className="column is-one-quarter-desktop is-half-tablet is-full-mobile">
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    )}
-    <div className="columns is-multiline">
-      {!filtering &&
-        categories.map((category) => (
-          <div key={category.name} className="column is-12">
-            <h2 className="is-size-4 mb-4">{category.name}</h2>
+  return (
+    <>
+      <Filter
+        productCount={products.length}
+        onSearch={searchProducts}
+        locations={locations}
+      />
+      {filtering && (
+        <div className="columns is-multiline">
+          <div className="column is-12">
+            <h2 className="is-size-4 mb-4">Products matching filters</h2>
             <div className="columns is-multiline is-mobile">
-              {filteredProducts[category.name]?.map((product) => (
-                <div key={product.id} className="column is-one-quarter-desktop is-half-tablet is-full-mobile">
-                  <ProductCard product={product} />
-                </div>
+              {products.map((product) => (
+                <ProductCard
+                  product={product}
+                  key={product.id}
+                  className="column is-one-quarter-desktop is-half-tablet is-full-mobile"
+                />
               ))}
             </div>
           </div>
-        ))}
-    </div>
-  </>
-);
+        </div>
+      )}
+      <div className="columns is-multiline">
+        {!filtering &&
+          categories.map((category) => (
+            <div key={category.name} className="column is-12">
+              <h2 className="is-size-4 mb-4">{category.name}</h2>
+              <div className="columns is-multiline is-mobile">
+                {filteredProducts[category.name]?.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    className="column is-one-third-desktop is-half-tablet is-full-mobile"
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+      </div>
+    </>
+  );
 }
+
+
+
+
+
+
 
 
 Products.getLayout = function getLayout(page) {

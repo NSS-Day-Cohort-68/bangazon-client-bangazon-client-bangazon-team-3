@@ -1,7 +1,10 @@
 import Link from "next/link"
 import { ProductCard } from "../product/card.js"
+import { useState, useEffect } from "react"
+import { getProducts } from "../../data/products.js"
 
-export function StoreCard({ store, width = "is-half" }) {
+export function ProfileStoreCard({ store, width = "is-half" }) {
+
   return (
     <div className={`column ${width}`}>
       <div className="card">
@@ -10,16 +13,15 @@ export function StoreCard({ store, width = "is-half" }) {
         </header>
         <div className="card-content">
           <p className="content">
-            Owner: {store.seller.first_name} {store.seller.last_name}
+            Owner: {store.seller.user.first_name} {store.seller.user.last_name}
           </p>
           <div className="content">{store.description}</div>
-          <div className="content">Products: {store.products?.length}</div>
         </div>
         <footer className="card-footer">
           <div className="">
-            {store.products?.map((product) => {
-              return <ProductCard key={product.id} product={product} />
-            })}
+            {/* {products.map((product) => {
+              return <ProductCard key={store.seller?.product?.id} product={product} />
+            })} */}
           </div>
           <Link href={`stores/${store.id}`}>
             <a className="card-footer-item">View Store</a>

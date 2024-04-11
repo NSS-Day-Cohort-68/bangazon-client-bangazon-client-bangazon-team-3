@@ -6,6 +6,7 @@ import { ProductCard } from '../components/product/card'
 import { StoreCard } from '../components/store/card'
 import { useAppContext } from '../context/state'
 import { getUserProfile } from '../data/auth'
+import { ProfileStoreCard } from '../components/store/profileStoreCard.js'
 
 export default function Profile() {
   const { profile, setProfile } = useAppContext()
@@ -23,8 +24,8 @@ export default function Profile() {
       <CardLayout title="Favorite Stores" width="is-full">
         <div className="columns is-multiline">
           {
-            profile.favorites?.map(favorite => (
-              <StoreCard store={favorite} key={favorite.id} width="is-one-third" />
+            profile.favorite_sellers?.map(favorite => (
+              <ProfileStoreCard store={favorite} key={favorite.id} width="is-one-third" />
             ))
           }
         </div>

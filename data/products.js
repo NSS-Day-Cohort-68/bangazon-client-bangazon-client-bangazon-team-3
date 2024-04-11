@@ -22,6 +22,14 @@ export function getCategories() {
   })
 }
 
+export function getCategoriesFiltered() {
+  return fetchWithResponse("products/list_with_categories", {
+    headers: {
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
+  })
+}
+
 export function getProductById(id) {
   return fetchWithResponse(`products/${id}`, {
     headers: {
@@ -116,7 +124,7 @@ export function likeProduct(productId) {
 }
 
 export function unLikeProduct(productId) {
-  return fetchWithoutResponse(`products/${productId}/unlike`, {
+  return fetchWithoutResponse(`products/${productId}/like`, {
     method: "DELETE",
     headers: {
       Authorization: `Token ${localStorage.getItem("token")}`,

@@ -8,6 +8,7 @@ import { useAppContext } from '../context/state'
 import { getUserProfile } from '../data/auth'
 import { ProfileStoreCard } from '../components/store/profileStoreCard.js'
 
+
 export default function Profile() {
   const { profile, setProfile } = useAppContext()
 
@@ -28,26 +29,31 @@ export default function Profile() {
               <ProfileStoreCard store={favorite} key={favorite.id} width="is-one-third" />
             ))
           }
+
         </div>
         <></>
       </CardLayout>
       <CardLayout title="Products you've recommended" width="is-full">
         <div className="columns is-multiline">
-          {
-            profile.recommended_by?.map(recommendation => (
-              <ProductCard product={recommendation.product} key={recommendation.product.id} width="is-one-third" />
-            ))
-          }
+          {profile.recommends?.map((recommendation) => (
+            <ProductCard
+              product={recommendation.product}
+              key={recommendation.product.id}
+              width="is-one-third"
+            />
+          ))}
         </div>
         <></>
       </CardLayout>
       <CardLayout title="Products recommended to you" width="is-full">
         <div className="columns is-multiline">
-          {
-            profile.recommendations?.map(recommendation => (
-              <ProductCard product={recommendation.product} key={recommendation.product.id} width="is-one-third" />
-            ))
-          }
+          {profile.recommended?.map((recommendation) => (
+            <ProductCard
+              product={recommendation.product}
+              key={recommendation.product.id}
+              width="is-one-third"
+            />
+          ))}
         </div>
         <></>
       </CardLayout>
@@ -55,8 +61,8 @@ export default function Profile() {
       <CardLayout title="Products you've liked" width="is-full">
         <div className="columns is-multiline">
           {
-            profile.likes?.map(product => (
-              <ProductCard product={product} key={product.id} width="is-one-third" />
+            profile.likes?.map(likes => (
+              <ProductCard product={likes.product} key={likes.id} width="is-one-third" />
             ))
           }
         </div>

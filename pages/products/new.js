@@ -11,15 +11,19 @@ export default function NewProduct() {
   const saveProduct = () => {
     const { name, description, price, category, location, quantity, image } =
       formEl.current
-    const product = {
-      name: name.value,
-      description: description.value,
-      price: parseInt(price.value),
-      category_id: parseInt(category.value),
-      location: location.value,
-      quantity: parseInt(quantity.value),
-      image_path: image.value,
-    }
+      const product = {
+        name: name.value,
+        description: description.value,
+        price: parseInt(price.value),
+        category_id: parseInt(category.value),
+        location: location.value,
+        quantity: parseInt(quantity.value),
+      };
+    
+      if (image.value) {
+        product.image_path = image.value;
+      }
+    
     addProduct(product).then((res) => {
       router.push(`/products/${res.id}`)
     })

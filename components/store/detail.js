@@ -1,6 +1,14 @@
 import Link from 'next/link'
+import { useAppContext } from "../../context/state"
+import useState from "react"
+import React from 'react';
 
 export default function Detail({ store, isOwner, favorite, unfavorite }) {
+  const { profile } = useAppContext();
+
+ 
+
+
   const ownerButtons = () => {
     return (
       <div className="buttons">

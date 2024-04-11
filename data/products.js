@@ -22,6 +22,14 @@ export function getCategories() {
   })
 }
 
+export function getCategoriesFiltered() {
+  return fetchWithResponse("products/list_with_categories", {
+    headers: {
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
+  })
+}
+
 export function getProductById(id) {
   return fetchWithResponse(`products/${id}`, {
     headers: {
